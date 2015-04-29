@@ -125,11 +125,15 @@ public class TwentyOneSticks {
 	 * @return int the number of sticks the computer will remove.
 	 */
 	private static int determineNumberOfSticksToRemove() {
+		int sticksToRemove;
 		System.out.println();
-		
-		// TODO implement AI here :o)
-		
-		return 2;
+		int mod5Result = stickCount % 5;
+		if(mod5Result==1 || mod5Result==2 || mod5Result==3){
+			sticksToRemove = mod5Result;
+		}else{
+			sticksToRemove = 1;
+		}
+		return sticksToRemove;
 	}
 
 	/**
