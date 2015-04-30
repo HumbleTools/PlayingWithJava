@@ -142,7 +142,7 @@ public class TwentyOneSticks {
 			}
 			sticksToRemove = stickCount % (nextTargetStick-1);
 			if(sticksToRemove==0 || sticksToRemove>3){
-				sticksToRemove = 1;
+				sticksToRemove = (int) (1 + Math.floor(Math.random()*3));
 			}
 		}
 		return sticksToRemove;
