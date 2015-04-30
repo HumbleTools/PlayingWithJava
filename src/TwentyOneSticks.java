@@ -2,6 +2,11 @@ import java.util.Scanner;
 
 /**
  * This is a fun, simple and known game made in a simple console version.
+ * Hints :
+ * - Mathematically, if you can pick-up sticks number 18, then 14, then 10, then 6 and then 2, you can secure a win.
+ * - If you cannot pick-up one of the sticks above, try to target the next of the list. Then you can be dominant in the game.
+ * - The AI will follow this logic, thus winning if it plays second.
+ * - If you start the game first and defeat the AI without cheating, I'll pay you a beer. ;)
  * 
  * @author lmadeuf
  *
@@ -109,15 +114,17 @@ public class TwentyOneSticks {
 	 */
 	private static void removeSticks(boolean isPlayersTurn) {
 		int sticksToRemove;
+		String message;
 		if(isPlayersTurn){
 			sticksToRemove = askForSticksToRemove();
-			stickCount -= sticksToRemove;
-			System.out.println(String.format(YOU_REMOVED_X_STICKS, sticksToRemove));
+			message = YOU_REMOVED_X_STICKS;
 		}else{
 			sticksToRemove = determineNumberOfSticksToRemove();
-			stickCount -= sticksToRemove;
-			System.out.println(String.format(THE_COMPUTER_REMOVED_X_STICKS, sticksToRemove));
+			message = THE_COMPUTER_REMOVED_X_STICKS;
 		}
+		stickCount -= sticksToRemove;
+		System.out.println();
+		System.out.println(String.format(message, sticksToRemove));
 	}
 
 	/**
@@ -126,12 +133,17 @@ public class TwentyOneSticks {
 	 */
 	private static int determineNumberOfSticksToRemove() {
 		int sticksToRemove;
-		System.out.println();
-		int mod5Result = stickCount % 5;
-		if(mod5Result==1 || mod5Result==2 || mod5Result==3){
-			sticksToRemove = mod5Result;
-		}else{
-			sticksToRemove = 1;
+		if((stickCount <= 4) && (stickCount > 1)){
+			sticksToRemove = stickCount - 1;
+		} else {
+			int nextTargetStick = 2;
+			while(nextTargetStick + 4 <= stickCount){
+				nextTargetStick += 4;
+			}
+			sticksToRemove = stickCount % (nextTargetStick-1);
+			if(sticksToRemove==0 || sticksToRemove>3){
+				sticksToRemove = 1;
+			}
 		}
 		return sticksToRemove;
 	}
@@ -141,7 +153,6 @@ public class TwentyOneSticks {
 	 * @return int returns the first correctly entered number.
 	 */
 	private static int askForSticksToRemove() {
-		System.out.println();
 		System.out.println(ASK_ONE_TWO_OR_THREE_STICKS);
 		String userInput = scanner.nextLine().trim();
 		while(!"1".equals(userInput) && !"2".equals(userInput) && !"3".equals(userInput)){
@@ -165,6 +176,7 @@ public class TwentyOneSticks {
 		for(int i=1; i<=stickCount; i++){
 			System.out.print(STICK);
 		}
+		System.out.println();
 	}
 	
 }
