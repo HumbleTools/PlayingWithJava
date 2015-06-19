@@ -1,3 +1,4 @@
+package com.fun;
 import java.util.Scanner;
 
 /**
